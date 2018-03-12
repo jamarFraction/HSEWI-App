@@ -6,3 +6,4 @@
 HSEWI App/Supporting Files/AppDelegate.swift
 *.xcworkspacedata
 *.plist
+*.xcbkptlist
