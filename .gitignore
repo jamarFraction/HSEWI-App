@@ -1,0 +1,8 @@
+
+*.pbxproj
+*.pbxproj
+*.storyboard
+*.json
+HSEWI App/Supporting Files/AppDelegate.swift
+*.xcworkspacedata
+*.plist
