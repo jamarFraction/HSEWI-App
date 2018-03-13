@@ -9,9 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     //Text field outlet
     @IBOutlet weak var emailField: UITextField!
+    
+    //Session
+    lazy var currentSession = Session(creatorEmail: "")
     
     
     @IBAction func StartSession() {
@@ -23,7 +26,10 @@ class ViewController: UIViewController {
             if(validateEmail(emailToValidate: emailField.text!) == true){
                 
                 //passed validation, create session
-                let currentSession = Session(creatorEmail: emailField.text!)
+                currentSession = Session(creatorEmail: emailField.text!)
+            
+                //Segue to AddStudent View
+                performSegue(withIdentifier: "AddStudent", sender: nil)
                 
                 
             }else{
@@ -54,6 +60,14 @@ class ViewController: UIViewController {
                 return true
             }
         }
+        
+        //Wrong email format
+        //Create an alert
+        let emailAlert = UIAlertController(title: "Error", message: "Email must be of the format: xxx@xxx.xxx", preferredStyle: .alert)
+        emailAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        
+        //Present the alert
+        self.present(emailAlert, animated: true)
         
         return false
     }

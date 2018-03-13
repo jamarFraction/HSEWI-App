@@ -10,6 +10,18 @@ import Foundation
 
 class Student{
     
+    init(){
+        
+        FirstName = ""
+        LastName = ""
+        PhoneNumber = ""
+        Email = ""
+        
+    }
     
+    var FirstName: String
+    var LastName: String
+    var PhoneNumber: String
+    var Email: String
     
 }

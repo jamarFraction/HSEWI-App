@@ -16,6 +16,12 @@ class Session{
         
     }
     
+    func AddStudent(StudentToAdd passedStudent: Student){
+        
+        Attendees.append(passedStudent)
+        
+    }
+    
     //send-to email for the session
     private var CreatorEmail: String
     
