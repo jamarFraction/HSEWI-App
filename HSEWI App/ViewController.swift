@@ -13,10 +13,7 @@ class ViewController: UIViewController {
     //Text field outlet
     @IBOutlet weak var emailField: UITextField!
     
-    //Session
-    lazy var currentSession = Session(creatorEmail: "")
-    
-    
+    //Start Session
     @IBAction func StartSession() {
         
         //make sure the feild has text
@@ -24,25 +21,18 @@ class ViewController: UIViewController {
             
             //validate the email format
             if(validateEmail(emailToValidate: emailField.text!) == true){
-                
-                //passed validation, create session
-                currentSession = Session(creatorEmail: emailField.text!)
             
                 //Segue to AddStudent View
-                performSegue(withIdentifier: "AddStudent", sender: nil)
+                //Sending the text value from the textbox to be used to initialize the student list
+                //in the next view
+                self.performSegue(withIdentifier: "AddStudent", sender: nil)
             }
             //failed validation, present email error
             emailAlert()
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
+
     //***************************************************************************************************
     //Email alert function
     func emailAlert(){
@@ -55,8 +45,28 @@ class ViewController: UIViewController {
         self.present(emailAlert, animated: true)
         
     }
+    
+    //Segue override.. will pass over the email
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "AddStudent" {
+            
+            let email = emailField.text
+            
+            if let secondViewController = segue.destination as? AddStudent{
+                
+                secondViewController.sessionEmail = email
+                
+            }
+        }
+        
+    }
     //***************************************************************************************************
+   
+//End of ViewController Class
 }
+
+
 
 //email validation
 public func validateEmail(emailToValidate passedEmail: String) -> Bool{
@@ -81,4 +91,6 @@ public func validateEmail(emailToValidate passedEmail: String) -> Bool{
     
     return false
 }
+
+
 

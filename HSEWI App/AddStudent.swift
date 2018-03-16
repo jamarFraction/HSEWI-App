@@ -9,9 +9,21 @@
 import UIKit
 
 class AddStudent: UIViewController {
+    
+    override func viewDidLoad() {
+        
+        //Upon loading the view, set the session email via the
+        currentSession.SetCreatorEmail(email: sessionEmail!)
+        
+    }
+    
+    
+    //Current Session
+    private var currentSession = Session(creatorEmail: "")
+    
+    //Email passed to this function via
+    internal var sessionEmail: String?
 
-    
-    
     //[FirstName, LastName, Email, PhoneNumber]
     @IBOutlet var StudentInfo: [UITextField]!
     
@@ -22,11 +34,13 @@ class AddStudent: UIViewController {
         if validateInput() ==  true {
             
             print("TRUE")
+            //TODO: Clear All Text boxes and write information to Student Class
+            //TODO: Insert Student into the session Student list
         }
         
     }
   
-    @IBAction func FormatPhoneNumber(_ textField: UITextField) {
+    @IBAction func PhoneNumberValidation(_ textField: UITextField) {
         
         //Guard for backspacing at string length 1 causing the app to crash
         if textField.text!.count > 0{
@@ -39,7 +53,7 @@ class AddStudent: UIViewController {
             let lastCharacterAsInt = Int(String(string[indexOfLastChar]))
             
             //if lastCharacterAsInt is not a Integer its value will be nil
-            if lastCharacterAsInt == nil{
+            if lastCharacterAsInt == nil || textField.text!.count > 10{
                 
                 if textField.text!.count > 1 {
                     
@@ -57,7 +71,7 @@ class AddStudent: UIViewController {
             }
         }
     }
-    
+
     
     
     //
@@ -88,15 +102,14 @@ class AddStudent: UIViewController {
         }
         
         //check the email
-        if validateEmail(emailToValidate: StudentInfo[3].text!) == false{
+        if validateEmail(emailToValidate: StudentInfo[2].text!) == false{
             
             highlightTextBox(boxToHighlight: 2)
             emailAlert()
             
         }
         
-        
-
+        //TODO: Check the phone number
         
         return false
     }
@@ -126,10 +139,10 @@ class AddStudent: UIViewController {
     //Highlight Text Box
     func highlightTextBox(boxToHighlight passedIndex: Int) {
         
-        StudentInfo[passedIndex].backgroundColor = UIColor.red
-        StudentInfo[passedIndex].isOpaque = true
-        StudentInfo[passedIndex].alpha = CGFloat(0.1)
-        
+        //generated using http://uicolor.xyz/#/hex-to-ui
+        //from RGB values: 255, 208. 208
+        StudentInfo[passedIndex].backgroundColor = UIColor(red: 1.00, green: 0.82, blue: 0.82, alpha: 1.0)
+
     }
     
     //Email alert function
@@ -144,12 +157,19 @@ class AddStudent: UIViewController {
         
     }
     
+    //Format the phone number for data writing later
     func formatPhoneNumber(_ passedNumber: String) -> String{
         
         
         
         return ""
     }
+    //
+    //End
+    //User
+    //Functions
+    //
     //***************************************************************************************************
 }
+
 

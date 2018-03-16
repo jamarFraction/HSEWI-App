@@ -16,6 +16,18 @@ class Session{
         
     }
     
+    func GetCreatorEmail() -> String{
+        
+        return self.CreatorEmail
+        
+    }
+    
+    func SetCreatorEmail(email passedEmail: String){
+        
+        self.CreatorEmail = passedEmail
+        
+    }
+    
     func AddStudent(StudentToAdd passedStudent: Student){
         
         Attendees.append(passedStudent)
