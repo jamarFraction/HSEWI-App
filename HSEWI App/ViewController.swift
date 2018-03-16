@@ -31,9 +31,12 @@ class ViewController: UIViewController {
             emailAlert()
         }
     }
-    
-
+    //
+    //User
+    //Functions
+    //
     //***************************************************************************************************
+    
     //Email alert function
     func emailAlert(){
     
@@ -46,7 +49,7 @@ class ViewController: UIViewController {
         
     }
     
-    //Segue override.. will pass over the email
+    //Segue override.. will assign the sessionEmail variable in AddStudent ViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "AddStudent" {
@@ -61,10 +64,13 @@ class ViewController: UIViewController {
         }
         
     }
+    //
+    //End
+    //User
+    //Functions
+    //
     //***************************************************************************************************
-   
-//End of ViewController Class
-}
+}//End of ViewController Class
 
 
 

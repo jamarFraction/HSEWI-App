@@ -33,9 +33,12 @@ class AddStudent: UIViewController {
         
         if validateInput() ==  true {
             
-            print("TRUE")
-            //TODO: Clear All Text boxes and write information to Student Class
+            //change the text displayed in the UITextField to its formatted version
+            StudentInfo[3].text = formatPhoneNumber(StudentInfo[3].text!)
+            
+            //TODO: Write information to Student Class
             //TODO: Insert Student into the session Student list
+            //TODO: Clear All Text boxes
         }
         
     }
@@ -83,6 +86,8 @@ class AddStudent: UIViewController {
     //Validate Input
     func validateInput() -> Bool{
         
+        var error = 0
+        
         //reset all textboxes back to the non-highlighted color
         for textBox in StudentInfo{
             
@@ -93,12 +98,14 @@ class AddStudent: UIViewController {
         if checkFirstName() == false{
             
             highlightTextBox(boxToHighlight: 0)
+            error = 1
         }
         
         //check the last name
         if checkLastName() == false{
             
             highlightTextBox(boxToHighlight: 1)
+            error = 1
         }
         
         //check the email
@@ -106,11 +113,28 @@ class AddStudent: UIViewController {
             
             highlightTextBox(boxToHighlight: 2)
             emailAlert()
+            error = 1
             
         }
         
-        //TODO: Check the phone number
+        //check the phone number
+        if StudentInfo[3].text!.count < 10 {
+            
+            //Phone number is "validated" in real time, see PhoneNumberValidation
+            highlightTextBox(boxToHighlight: 3)
+            error = 1
+            
+        }
         
+        //check for any error
+        if error == 0 {
+            
+            //no errors, return true
+            return true
+            
+        }
+        
+        //at least 1 error
         return false
     }
     
@@ -160,9 +184,16 @@ class AddStudent: UIViewController {
     //Format the phone number for data writing later
     func formatPhoneNumber(_ passedNumber: String) -> String{
         
+        //TODO: Format Phone number to xxx-xxx-xxxx
+        var string = passedNumber
         
+        let position1 = String.Index.init(encodedOffset: 3)
+        let position2 = String.Index.init(encodedOffset: 7)
         
-        return ""
+        string.insert("-", at: position1)
+        string.insert("-", at: position2)
+        
+        return string
     }
     //
     //End
