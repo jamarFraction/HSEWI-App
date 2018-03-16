@@ -30,38 +30,23 @@ class ViewController: UIViewController {
             
                 //Segue to AddStudent View
                 performSegue(withIdentifier: "AddStudent", sender: nil)
-                
-                
-            }else{
-                //failed validation, retry
-                
             }
+            //failed validation, present email error
+            emailAlert()
         }
     }
     
     
-    //email validation
-    func validateEmail(emailToValidate passedEmail: String) -> Bool{
-        
-        //email must contain an "@"
-        if(passedEmail.contains("@")){
-            
-            //get the index of "@" and create a substring starting at that index..end
-            let index = passedEmail.index(of: "@") ?? passedEmail.endIndex
-            let end = passedEmail[index..<passedEmail.endIndex]
-            
-            //email domain will now contain "@xxx.xxx"
-            let emailDomain = String(end)
-            
-            //check for the "." in the domain
-            if(emailDomain.contains(".")){
-                
-                //email will suffice
-                return true
-            }
-        }
-        
-        //Wrong email format
+    
+    
+    
+    
+    
+    
+    //***************************************************************************************************
+    //Email alert function
+    func emailAlert(){
+    
         //Create an alert
         let emailAlert = UIAlertController(title: "Error", message: "Email must be of the format: xxx@xxx.xxx", preferredStyle: .alert)
         emailAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -69,8 +54,31 @@ class ViewController: UIViewController {
         //Present the alert
         self.present(emailAlert, animated: true)
         
-        return false
+    }
+    //***************************************************************************************************
+}
+
+//email validation
+public func validateEmail(emailToValidate passedEmail: String) -> Bool{
+    
+    //email must contain an "@"
+    if(passedEmail.contains("@")){
+        
+        //get the index of "@" and create a substring starting at that index..end
+        let index = passedEmail.index(of: "@") ?? passedEmail.endIndex
+        let end = passedEmail[index..<passedEmail.endIndex]
+        
+        //email domain will now contain "@xxx.xxx"
+        let emailDomain = String(end)
+        
+        //check for the "." in the domain
+        if(emailDomain.contains(".")){
+            
+            //email will suffice
+            return true
+        }
     }
     
+    return false
 }
 
