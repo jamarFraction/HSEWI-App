@@ -10,13 +10,14 @@ import Foundation
 
 class Student{
     
-    init(){
+    
+    init(FirstName passedFirstName: String, LastName passedLastName: String, PhoneNumber passedPhoneNumber: String, Email passedEmail: String){
         
-        FirstName = ""
-        LastName = ""
-        PhoneNumber = ""
-        Email = ""
-        
+        self.FirstName = passedFirstName
+        self.LastName = passedLastName
+        self.PhoneNumber = passedPhoneNumber
+        self.Email = passedEmail
+    
     }
     
     var FirstName: String

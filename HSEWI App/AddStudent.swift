@@ -36,9 +36,17 @@ class AddStudent: UIViewController {
             //change the text displayed in the UITextField to its formatted version
             StudentInfo[3].text = formatPhoneNumber(StudentInfo[3].text!)
             
-            //TODO: Write information to Student Class
-            //TODO: Insert Student into the session Student list
-            //TODO: Clear All Text boxes
+            //Create a new Student with the information gathered from the text boxes
+            //and insert it to the session list
+            currentSession.AddStudent(StudentToAdd: Student(FirstName: StudentInfo[0].text!, LastName: StudentInfo[1].text!, PhoneNumber: StudentInfo[2].text!, Email: StudentInfo[3].text!))
+            
+            
+            //TODO: Display Submission Confirmation Alert
+            print("Info recorded")
+            
+            //Clear All Text boxes
+            self.clearTextBoxes()
+            
         }
         
     }
@@ -181,6 +189,9 @@ class AddStudent: UIViewController {
         
     }
     
+    //TODO: Create Submission Confirmation Alert
+    //Submission Confirmation Alert
+    
     //Format the phone number for data writing later
     func formatPhoneNumber(_ passedNumber: String) -> String{
         
@@ -194,6 +205,16 @@ class AddStudent: UIViewController {
         string.insert("-", at: position2)
         
         return string
+    }
+    
+    func clearTextBoxes(){
+        
+        for textBox in StudentInfo{
+            
+            textBox.text = ""
+            
+        }
+        
     }
     //
     //End
