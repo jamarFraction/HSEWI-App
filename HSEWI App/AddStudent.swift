@@ -21,6 +21,10 @@ class AddStudent: UIViewController {
     //Current Session
     private var currentSession = Session(creatorEmail: "")
     
+    //Email confirmation var
+    //False = Exporting not enabled
+    private var emailConfirmed = false
+    
     //Email passed to this function via
     internal var sessionEmail: String?
 
@@ -85,6 +89,12 @@ class AddStudent: UIViewController {
         }
     }
 
+    @IBAction func EndSession() {
+        
+        //Pompt the user for the session creation email
+        EndSessionValidation()
+        
+    }
     
     
     //
@@ -92,6 +102,7 @@ class AddStudent: UIViewController {
     //Functions
     //
     //***************************************************************************************************
+    
     
     //Validate Input
     func validateInput() -> Bool{
@@ -148,6 +159,7 @@ class AddStudent: UIViewController {
         return false
     }
     
+    
     //Check First Name
     func checkFirstName() -> Bool{
         
@@ -158,6 +170,7 @@ class AddStudent: UIViewController {
         
         return false
     }
+    
     
     //Check Last Name
     func checkLastName() -> Bool{
@@ -170,6 +183,7 @@ class AddStudent: UIViewController {
         return false
     }
     
+    
     //Highlight Text Box
     func highlightTextBox(boxToHighlight passedIndex: Int) {
         
@@ -178,6 +192,57 @@ class AddStudent: UIViewController {
         StudentInfo[passedIndex].backgroundColor = UIColor(red: 1.00, green: 0.82, blue: 0.82, alpha: 1.0)
 
     }
+    
+    func EndSessionValidation(){
+        
+        //Will hold the data input to the alert textbox
+        var textField: String = ""
+        
+        //Alert Controller
+        let endSessionAlert = UIAlertController(title: "End Current Session", message: "Please enter the email used when creating this session", preferredStyle: .alert)
+        
+        //Submit option
+        let submit = UIAlertAction(title: "Submit", style: .default, handler: {(_) in
+            
+            //set the textfield variable with the value from the textbox
+            textField = endSessionAlert.textFields![0].text!
+            
+            //check to see if the text entered matches the email used to create the session
+            if textField.lowercased() == self.currentSession.GetCreatorEmail().lowercased(){
+                
+                //text matches so confirm the email
+                self.emailConfirmed = true
+                
+            }
+            
+            //TODO: handle the exporting of session data
+            if self.emailConfirmed == true {
+                
+                print("I'm about to do some stuff")
+                
+            }
+            
+        })
+        
+        //cancel option
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (_) in })
+        
+        //Add the textbox to the alert
+        endSessionAlert.addTextField(configurationHandler: {(textBox: UITextField) in
+            
+            textBox.keyboardAppearance = .dark
+        })
+        
+        //Add the Submit option to the alert
+        endSessionAlert.addAction(submit)
+        
+        //Add the cancel option to the alert
+        endSessionAlert.addAction(cancel)
+        
+        //Present the alert
+        self.present(endSessionAlert, animated: true)
+    }
+    
     
     //Email alert function
     func emailAlert(){
@@ -191,7 +256,8 @@ class AddStudent: UIViewController {
         
     }
     
-    //TODO: Create Submission Confirmation Alert
+    
+    //Submission Confirmation Alert function
     func submissionConfirmationAlert(){
         
         //Create an alert
@@ -201,8 +267,8 @@ class AddStudent: UIViewController {
         //Present the alert
         self.present(submissionAlert, animated: true)
     }
-    //Submission Confirmation Alert
-    
+   
+
     //Format the phone number for data writing later
     func formatPhoneNumber(_ passedNumber: String) -> String{
         
