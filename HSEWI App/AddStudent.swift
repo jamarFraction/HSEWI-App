@@ -40,12 +40,14 @@ class AddStudent: UIViewController {
             //and insert it to the session list
             currentSession.AddStudent(StudentToAdd: Student(FirstName: StudentInfo[0].text!, LastName: StudentInfo[1].text!, PhoneNumber: StudentInfo[2].text!, Email: StudentInfo[3].text!))
             
-            
-            //TODO: Display Submission Confirmation Alert
-            print("Info recorded")
+            //Display the submission confirmation alert
+            submissionConfirmationAlert()
             
             //Clear All Text boxes
             self.clearTextBoxes()
+            
+            //set the focus back to the first text box
+            StudentInfo[0].becomeFirstResponder()
             
         }
         
@@ -190,17 +192,27 @@ class AddStudent: UIViewController {
     }
     
     //TODO: Create Submission Confirmation Alert
+    func submissionConfirmationAlert(){
+        
+        //Create an alert
+        let submissionAlert = UIAlertController(title: "Confirmation", message: "Thank You. Your information has been recorded!", preferredStyle: .alert)
+        submissionAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        
+        //Present the alert
+        self.present(submissionAlert, animated: true)
+    }
     //Submission Confirmation Alert
     
     //Format the phone number for data writing later
     func formatPhoneNumber(_ passedNumber: String) -> String{
         
-        //TODO: Format Phone number to xxx-xxx-xxxx
         var string = passedNumber
         
+        //location to add the dashes
         let position1 = String.Index.init(encodedOffset: 3)
         let position2 = String.Index.init(encodedOffset: 7)
         
+        //insertion
         string.insert("-", at: position1)
         string.insert("-", at: position2)
         
