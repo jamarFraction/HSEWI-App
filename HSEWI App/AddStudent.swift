@@ -133,7 +133,7 @@ class AddStudent: UIViewController {
         if validateEmail(emailToValidate: StudentInfo[2].text!) == false{
             
             highlightTextBox(boxToHighlight: 2)
-            emailAlert()
+            emailFormatAlert()
             error = 1
             
         }
@@ -215,13 +215,30 @@ class AddStudent: UIViewController {
                 
             }
             
-            //TODO: handle the exporting of session data
+            //TODO: Complete pending device testing - Handle the exporting of session data
             if self.emailConfirmed == true {
                 
-                print("I'm about to do some stuff")
+                //Check for empty Session list
+                if self.currentSession.Size() > 0 {
+                    
+                    //Create the file and export
+                    self.CreateFileAndExport()
+                    
+                    //Perform a Segue back to the Home screen of the app
+                    self.performSegue(withIdentifier: "ReturnToBeginning", sender: nil)
+                    
+                }else{
+                    
+                    //The list is empty
+                    self.emptySessionAlert()
+                    
+                }
+            }else{
+                
+                //Present the incorrect email alert
+                self.incorrectSessionEmailAlert()
                 
             }
-            
         })
         
         //cancel option
@@ -244,12 +261,45 @@ class AddStudent: UIViewController {
     }
     
     
-    //Email alert function
-    func emailAlert(){
+    //Incorrect Email format alert
+    func emailFormatAlert(){
         
         //Create an alert
         let emailAlert = UIAlertController(title: "Error", message: "Email must be of the format: xxx@xxx.xxx", preferredStyle: .alert)
         emailAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        
+        //Present the alert
+        self.present(emailAlert, animated: true)
+        
+    }
+    
+    
+    //Incorrect session email alert
+    func incorrectSessionEmailAlert(){
+        
+        //Create an alert
+        let emailAlert = UIAlertController(title: "Error", message: "The email you entered does not match the one entered to create this session", preferredStyle: .alert)
+        emailAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        
+        //Present the alert
+        self.present(emailAlert, animated: true)
+    }
+    
+    func emptySessionAlert(){
+        
+        //Create an alert
+        let emailAlert = UIAlertController(title: "Warning", message: "The current session has no attendees, are you sure you would like to exit?", preferredStyle: .alert)
+        
+        //Confirmation option
+        emailAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            
+            //User is ok with returning to the home screen
+            self.performSegue(withIdentifier: "ReturnToBeginning", sender: nil)
+            
+            }))
+        
+        //Cnacel option
+        emailAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         //Present the alert
         self.present(emailAlert, animated: true)
@@ -293,6 +343,40 @@ class AddStudent: UIViewController {
             
         }
         
+    }
+    
+    func CreateFileAndExport(){
+        
+        //let fileName = "Tasks.csv"
+        //let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent(fileName)
+        let fileName = Date().description
+        
+        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        
+        let csvText = currentSession.ExportSessionInfo()
+        
+        do {
+            try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
+            
+            
+            let vc = UIActivityViewController(activityItems: [path!], applicationActivities: [])
+            
+            vc.excludedActivityTypes = [
+                UIActivityType.assignToContact,
+                UIActivityType.saveToCameraRoll,
+                UIActivityType.postToFlickr,
+                UIActivityType.postToVimeo,
+                UIActivityType.postToWeibo,
+                UIActivityType.postToTwitter,
+                UIActivityType.postToFacebook,
+                UIActivityType.openInIBooks]
+            
+            present(vc, animated: true, completion: nil)
+            
+        } catch {
+            print("Failed to create file")
+            print("\(error)")
+        }
     }
     //
     //End

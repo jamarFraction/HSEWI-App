@@ -31,6 +31,18 @@ class ViewController: UIViewController {
             emailAlert()
         }
     }
+    
+    @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {
+        
+        //nothing needed
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //clear any existing text in the box upon this view becomming primary
+        emailField.text = ""
+        
+    }
     //
     //User
     //Functions
